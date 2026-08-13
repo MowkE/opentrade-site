@@ -43,7 +43,7 @@ a { color: inherit; text-decoration: none; }
 #side {
   position: fixed;
   top: 0; bottom: 0; left: 0;
-  width: 200px;
+  width: 190px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -123,9 +123,11 @@ a { color: inherit; text-decoration: none; }
 #discord:active { transform: scale(0.98); }
 
 /* ── main ── */
-#main { margin-left: 200px; min-height: 100vh; padding: 26px 30px 40px; }
+#main { margin-left: 190px; min-height: 100vh; padding: 26px 30px 40px;
+  display: flex; flex-direction: column; align-items: center; }
 
 #head {
+  width: min(880px, 100%);
   display: flex;
   align-items: center;
   gap: 22px;
@@ -155,7 +157,7 @@ a { color: inherit; text-decoration: none; }
   box-shadow: inset 0 0 0 2px rgba(122, 77, 8, 0.5);
 }
 
-#cols { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 30px; max-width: 1060px; }
+#cols { width: min(880px, 100%); display: grid; grid-template-columns: minmax(0, 1fr) 205px; gap: 84px; }
 
 /* ── streak card ── */
 #streak-card {
@@ -169,10 +171,10 @@ a { color: inherit; text-decoration: none; }
 .sc-label { font-weight: 800; font-size: 14px; }
 .sc-days { font: 700 15px var(--body); opacity: 0.9; }
 .sc-days b { font: 700 40px/1 var(--disp); margin-right: 4px; }
-.sc-week { display: flex; gap: 14px; flex: 1; justify-content: center; padding-top: 4px; }
+.sc-week { display: flex; gap: 13px; flex: 1; justify-content: center; padding-top: 4px; }
 .wd { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 800; opacity: 0.85; }
 .wd i {
-  width: 26px; height: 26px;
+  width: 22px; height: 22px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.75);
   box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.08);
@@ -236,7 +238,7 @@ a { color: inherit; text-decoration: none; }
 #games {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 14px;
   margin-bottom: 22px;
 }
 .game {
@@ -244,7 +246,7 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 34px;
+  gap: 20px;
   background: var(--card);
   border: 1px solid var(--card-line);
   border-radius: 14px;
@@ -263,7 +265,7 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--green);
-  margin-bottom: -26px;
+  margin-bottom: -8px;
 }
 .g-foot {
   width: 100%;
@@ -286,22 +288,22 @@ a { color: inherit; text-decoration: none; }
   text-align: left;
   color: #151208;
   overflow: hidden;
-  min-height: 150px;
+  min-height: 140px;
   transition: transform 0.18s var(--spring);
   box-shadow: 0 18px 40px -24px rgba(255, 217, 59, 0.5);
 }
 #league-card:hover { transform: translateY(-2px); }
 #league-card:active { transform: scale(0.995); }
-.lg-title { font: 700 30px var(--disp); display: block; }
+.lg-title { font: 700 26px var(--disp); display: block; }
 .lg-info { position: absolute; top: 14px; right: 16px; opacity: 0.75; }
 .lg-stage {
   position: absolute;
-  right: 26px; bottom: -6px;
+  right: 84px; bottom: -6px;
   display: flex;
   align-items: flex-end;
   gap: 20px;
 }
-.gary-big { width: 110px; display: block; }
+.gary-big { width: 124px; display: block; }
 .gary-big svg { width: 100%; display: block; }
 .lg-stage .vs { font: 700 19px var(--disp); padding-bottom: 34px; }
 .gpt { display: flex; flex-direction: column; align-items: center; gap: 2px; padding-bottom: 14px; }
@@ -385,7 +387,7 @@ a { color: inherit; text-decoration: none; }
   border-bottom: 2px solid var(--amber);
   padding: 0;
 }
-#helper .gary-mini { width: 72px; }
+#helper .gary-mini { width: 90px; }
 #feedback {
   display: flex;
   align-items: center;
@@ -497,3 +499,9 @@ a { color: inherit; text-decoration: none; }
   #games { grid-template-columns: 1fr; }
   #helper { display: none; }
 }
+
+/* real brand art */
+.gary-mini img, .gary-big img { width: 100%; display: block; }
+#logo .logo-dot img { display: block; }
+.hl-gary-wrap { display: flex; align-items: center; gap: 9px; }
+#hl-gary { width: 40px; height: 40px; object-fit: contain; }

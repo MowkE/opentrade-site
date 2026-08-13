@@ -120,8 +120,9 @@ function drawChart(upto) {
   $('hl-price').textContent = ps[ps.length - 1].toFixed(2);
 }
 
-function garySay(pool) {
+function garySay(pool, mood) {
   $('gary-says').textContent = Array.isArray(pool) ? pool[Math.floor(Math.random() * pool.length)] : pool;
+  if (mood) $('hl-gary').src = `assets/brand/gary-emotions/${mood}.webp`;
 }
 
 function newRound() {
@@ -131,7 +132,7 @@ function newRound() {
   $('hl-name').textContent = TICKS[Math.floor(Math.random() * TICKS.length)];
   $('hl-round').textContent = 'round ' + game.round;
   $('call-up').disabled = $('call-down').disabled = false;
-  if (game.round === 1) garySay(GARY.idle);
+  if (game.round === 1) garySay(GARY.idle, 'confident');
   drawChart(N_SHOW);
 }
 
@@ -153,12 +154,12 @@ function call(dir) {
         game.you++;
         wallet.coins += 50;
         wallet.xp += 25;
-        garySay(GARY.win);
+        garySay(GARY.win, 'sad');
         quest('q3');
         toast('You won 50 G Coins.');
       } else {
         game.gary++;
-        garySay(GARY.lose);
+        garySay(GARY.lose, 'happy');
       }
       $('hl-score').textContent = `you ${game.you} · gary ${game.gary}`;
       saveWallet();
