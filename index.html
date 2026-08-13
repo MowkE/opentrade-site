@@ -70,17 +70,36 @@
 </aside>
 
 <main id="main">
-  <header id="head">
-    <h1>Master the Market</h1>
-    <div id="flags"><span id="flag-thumb" aria-hidden="true"></span>
-      <button class="flag on" title="US markets" data-toast="US markets selected">
-        <svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><path d="M0 2h30M0 6h30M0 10h30M0 14h30M0 18h30" stroke="#c8322e" stroke-width="2"/><rect width="13" height="10" fill="#2c3b8f"/></svg>
-      </button>
-      <button class="flag" title="India markets" data-toast="India markets are coming to the preview">
-        <svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.6" fill="#f5943c"/><rect y="13.4" width="30" height="6.6" fill="#2c8f4a"/><circle cx="15" cy="10" r="2.4" fill="none" stroke="#2c3b8f" stroke-width="1"/></svg>
-      </button>
+
+  <section id="hero">
+    <div id="hero-copy">
+      <div class="hero-topline">
+        <span class="hero-kicker">Real tickers · fake money · live husky</span>
+        <div id="flags">
+          <span id="flag-thumb" aria-hidden="true"></span>
+          <button class="flag on" title="US markets" data-toast="US markets selected">
+            <svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><path d="M0 2h30M0 6h30M0 10h30M0 14h30M0 18h30" stroke="#c8322e" stroke-width="2"/><rect width="13" height="10" fill="#2c3b8f"/></svg>
+          </button>
+          <button class="flag" title="India markets" data-toast="India markets are coming to the preview">
+            <svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.6" fill="#f5943c"/><rect y="13.4" width="30" height="6.6" fill="#2c8f4a"/><circle cx="15" cy="10" r="2.4" fill="none" stroke="#2c3b8f" stroke-width="1"/></svg>
+          </button>
+        </div>
+      </div>
+      <h1 class="hero-h">THE MARKET<br>IS THE GAME.</h1>
+      <p class="hero-sub">Learn it by playing it. Short rounds, real tickers, zero
+      dollars, one insufferable husky who thinks he can beat you.</p>
+      <div class="hero-ctas">
+        <button class="hero-play" id="hero-play">Play Higher or Lower</button>
+        <a class="hero-alt" href="floor/">Walk the 3D floor</a>
+      </div>
     </div>
-  </header>
+    <div id="hero-desk">
+      <canvas id="hero-chart" width="380" height="130"></canvas>
+      <div id="hero-tape"><b id="ht-tick">$GARY</b><span id="ht-price">100.00</span><i id="ht-delta" class="up">+0.0%</i></div>
+      <img id="hero-gary-img" src="assets/brand/gary-emotions/confident.webp" alt="Gary" />
+      <p id="hero-mood">Gary is watching the open.</p>
+    </div>
+  </section>
 
   <div id="cols">
     <section id="content">

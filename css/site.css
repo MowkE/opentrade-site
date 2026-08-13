@@ -748,3 +748,133 @@ a { color: inherit; text-decoration: none; }
 }
 #side, #rightrail, #hl-back, #helper, #toasts { z-index: 20; }
 #main { position: relative; z-index: 1; }
+
+/* ═══ market world: the page becomes a place ═══ */
+
+/* the world is visible now, not a whisper */
+#aurora { opacity: 1; }
+
+/* chrome floats over the world as glass islands */
+#side {
+  top: 14px; left: 14px; bottom: 14px;
+  border-radius: 20px;
+  background: rgba(20, 18, 26, 0.68);
+  -webkit-backdrop-filter: blur(26px) saturate(1.4);
+  backdrop-filter: blur(26px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.9);
+}
+#rightrail {
+  top: 14px; right: 14px; bottom: 14px;
+  border-radius: 20px;
+  background: rgba(20, 18, 26, 0.68);
+  -webkit-backdrop-filter: blur(26px) saturate(1.4);
+  backdrop-filter: blur(26px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.9);
+}
+@media (prefers-reduced-transparency: reduce) {
+  #side, #rightrail { background: #17151c; -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+#main { margin-left: 214px; margin-right: 262px; }
+
+/* ── the hero ── */
+#hero {
+  width: min(860px, 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  gap: clamp(24px, 4vw, 52px);
+  align-items: center;
+  padding: 40px 0 46px;
+  animation: rise-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+.hero-topline { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.hero-kicker {
+  font: 700 11px var(--body);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+.hero-h {
+  font: 600 clamp(46px, 5.6vw, 74px)/0.98 var(--disp);
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+  text-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+.hero-sub {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 253, 248, 0.72);
+  max-width: 44ch;
+  margin-bottom: 26px;
+}
+.hero-ctas { display: flex; align-items: center; gap: 20px; }
+.hero-play {
+  min-height: 52px;
+  padding: 0 30px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #9d82ff, #7a5ee8);
+  color: #fff;
+  font: 700 16px var(--body);
+  box-shadow: 0 6px 0 #4c37a8, 0 22px 44px -16px rgba(143, 119, 239, 0.6);
+  transition: transform 0.12s var(--spring), box-shadow 0.12s, filter 0.15s;
+}
+.hero-play:hover { filter: brightness(1.07); }
+.hero-play:active { transform: translateY(4px); box-shadow: 0 2px 0 #4c37a8; }
+.hero-alt {
+  font: 700 14.5px var(--body);
+  color: rgba(255, 253, 248, 0.75);
+  border-bottom: 2px solid var(--brass);
+  padding-bottom: 2px;
+  transition: color 0.15s;
+}
+.hero-alt:hover { color: #fff; }
+
+/* gary's desk: a live position he has feelings about */
+#hero-desk {
+  position: relative;
+  background: rgba(20, 18, 26, 0.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 16px 16px 14px;
+  box-shadow: 0 30px 70px -34px rgba(0, 0, 0, 0.9);
+}
+#hero-chart { width: 100%; height: auto; display: block; border-radius: 10px; }
+#hero-tape {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  font: 700 13px ui-monospace, monospace;
+  margin-top: 10px;
+}
+#ht-tick { color: var(--brass); }
+#ht-delta.up { color: #3e9b60; }
+#ht-delta.down { color: #db554d; }
+#hero-gary-img {
+  position: absolute;
+  right: -18px;
+  bottom: -12px;
+  width: 132px;
+  filter: drop-shadow(0 14px 26px rgba(0, 0, 0, 0.6));
+  transition: transform 0.3s var(--spring);
+}
+#hero-mood {
+  margin-top: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--dim);
+  max-width: 200px;
+  min-height: 2.6em;
+}
+
+@media (max-width: 1100px) {
+  #hero { grid-template-columns: 1fr; }
+  #hero-desk { max-width: 430px; }
+}
+
+/* vibrancy: text on glass needs more presence, not more gray */
+.nv { color: rgba(255, 253, 248, 0.68); }
+.nv:hover { color: #fff; }
+#logo b, .create { color: rgba(255, 253, 248, 0.92); }

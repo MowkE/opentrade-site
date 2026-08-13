@@ -467,22 +467,36 @@ const glow = $('aurora');
 if (glow) {
   const ggl = glow.getContext('webgl', { alpha: true, antialias: false });
   if (ggl) {
-    glow.width = 64; glow.height = 36;
+    glow.width = 160; glow.height = 90;
     const vs = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
     const fs = `precision mediump float;uniform float t;uniform vec2 m;
-      float blob(vec2 uv, vec2 c, float r){ return smoothstep(r, 0.0, length(uv - c)); }
+      float hash(float n){ return fract(sin(n * 127.1) * 43758.5453); }
+      // one parallax layer of candlesticks marching leftward forever
+      vec3 layer(vec2 uv, float speed, float scale, float lift, float bright){
+        float x = uv.x * scale + t * speed + m.x * speed * 4.0;
+        float col = floor(x * 18.0);
+        float fx = fract(x * 18.0);
+        float seed = hash(col);
+        float mid = 0.28 + 0.34 * hash(col * 1.7) + lift + m.y * 0.02;
+        float h = 0.05 + 0.16 * hash(col * 2.3);
+        float body = step(abs(uv.y - mid), h) * step(abs(fx - 0.5), 0.30);
+        float wick = step(abs(uv.y - mid), h * 1.7) * step(abs(fx - 0.5), 0.045);
+        float up = step(0.5, seed);
+        vec3 tint = mix(vec3(0.86, 0.33, 0.30), vec3(0.24, 0.61, 0.38), up);
+        float glow = smoothstep(h * 2.6, 0.0, abs(uv.y - mid)) * 0.16;
+        return tint * (body * 0.85 + wick * 0.5 + glow) * bright;
+      }
       void main(){
-        vec2 uv = gl_FragCoord.xy / vec2(64.0, 36.0);
-        uv.x *= 1.78;
-        vec2 drift = m * 0.06;
-        float a = blob(uv, vec2(0.5 + 0.18 * sin(t * 0.11), 0.75 + 0.1 * cos(t * 0.07)) + drift, 0.62);
-        float b = blob(uv, vec2(1.25 + 0.2 * cos(t * 0.09), 0.3 + 0.12 * sin(t * 0.13)) + drift, 0.7);
-        float c = blob(uv, vec2(0.9 + 0.24 * sin(t * 0.05), 0.55) + drift * 0.5, 0.85);
-        vec3 col = vec3(0.078, 0.078, 0.078);
-        col += vec3(0.13, 0.10, 0.24) * a * 0.55;
-        col += vec3(0.16, 0.13, 0.07) * b * 0.4;
-        col += vec3(0.07, 0.09, 0.13) * c * 0.35;
-        gl_FragColor = vec4(col, 0.9);
+        vec2 uv = gl_FragCoord.xy / vec2(160.0, 90.0);
+        vec3 col = vec3(0.055, 0.052, 0.07);
+        col += layer(uv, 0.006, 1.0, -0.10, 0.10);   // far, dim, slow
+        col += layer(uv, 0.012, 0.62, 0.02, 0.16);   // mid
+        col += layer(uv, 0.022, 0.38, 0.16, 0.24);   // near, brighter
+        // night fog: the world sinks into dark toward the top
+        col = mix(col, vec3(0.055, 0.052, 0.07), smoothstep(0.35, 0.95, uv.y));
+        // gentle violet haze low in the room
+        col += vec3(0.10, 0.07, 0.20) * smoothstep(0.5, 0.0, uv.y) * 0.35;
+        gl_FragColor = vec4(col, 1.0);
       }`;
     const mk = (ty, src) => { const s = ggl.createShader(ty); ggl.shaderSource(s, src); ggl.compileShader(s); return s; };
     const pr = ggl.createProgram();
@@ -512,3 +526,66 @@ if (glow) {
     requestAnimationFrame(draw);
   }
 }
+
+
+// ------------------------------------------- gary's desk: a live take
+
+const heroCv = $('hero-chart');
+if (heroCv) {
+  const hg = heroCv.getContext('2d');
+  let hp = [100];
+  const MOODS = [
+    { min: 1.2, img: 'celebratory', lines: ['Gary is up and insufferable.', 'Gary would like this printed and framed.'] },
+    { min: 0.25, img: 'happy', lines: ['Green enough for a treat.', 'Gary takes full credit for this.'] },
+    { min: -0.25, img: 'confident', lines: ['Flat. Gary remains smug anyway.', 'Gary is watching the open.'] },
+    { min: -1.2, img: 'sad', lines: ['Gary does not want to talk about it.', 'The couch called. Gary answered.'] },
+    { min: -99, img: 'desperate-begging', lines: ['Gary is begging the chart to stop.', 'Somebody buy. Please. For Gary.'] },
+  ];
+  let heroMood = 'confident';
+  const drawHero = () => {
+    const W = heroCv.width, H = heroCv.height;
+    hg.clearRect(0, 0, W, H);
+    const lo = Math.min(...hp), hi = Math.max(...hp);
+    const up = hp[hp.length - 1] >= hp[0];
+    const cx = i => (i / 59) * (W - 8) + 4;
+    const cy = p => H - 8 - ((p - lo) / (hi - lo || 1)) * (H - 16);
+    hg.beginPath();
+    hp.forEach((p, i) => i ? hg.lineTo(cx(i), cy(p)) : hg.moveTo(cx(i), cy(p)));
+    hg.strokeStyle = up ? '#3e9b60' : '#db554d';
+    hg.lineWidth = 2.5;
+    hg.lineJoin = 'round';
+    hg.stroke();
+    hg.lineTo(cx(hp.length - 1), H - 4);
+    hg.lineTo(4, H - 4);
+    hg.closePath();
+    const grad = hg.createLinearGradient(0, 0, 0, H);
+    grad.addColorStop(0, up ? 'rgba(62,155,96,0.25)' : 'rgba(219,85,77,0.25)');
+    grad.addColorStop(1, 'transparent');
+    hg.fillStyle = grad;
+    hg.fill();
+  };
+  const heroTick = () => {
+    const last = hp[hp.length - 1];
+    hp.push(Math.max(20, last * (1 + (Math.random() - 0.495) * 0.02)));
+    if (hp.length > 60) hp.shift();
+    drawHero();
+    const pct = ((hp[hp.length - 1] - hp[0]) / hp[0]) * 100;
+    $('ht-price').textContent = hp[hp.length - 1].toFixed(2);
+    $('ht-delta').textContent = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
+    $('ht-delta').className = pct >= 0 ? 'up' : 'down';
+    const mood = MOODS.find(mm => pct >= mm.min);
+    if (mood && mood.img !== heroMood) {
+      heroMood = mood.img;
+      const img = $('hero-gary-img');
+      img.src = `assets/brand/gary-emotions/${mood.img}.webp`;
+      $('hero-mood').textContent = mood.lines[Math.floor(Math.random() * mood.lines.length)];
+      if (!reduced) img.animate([
+        { transform: 'scale(0.86)' }, { transform: 'scale(1.06)', offset: 0.6 }, { transform: 'scale(1)' },
+      ], { duration: 420, easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)' });
+    }
+  };
+  for (let i = 0; i < 59; i++) heroTick();
+  $('hero-mood').textContent = 'Gary is watching the open.';
+  if (!reduced) setInterval(heroTick, 1600);
+}
+$('hero-play').addEventListener('click', () => openSheet($('hero-play')));
