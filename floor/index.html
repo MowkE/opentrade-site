@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>THE FLOOR</title>
+  <meta name="description" content="A walkable 3D casino for you and your friends: wander the floor, sit at glowing tables, play with honest odds and play money. No real money, just bragging rights." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230c0a10'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23ff4fa3' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='3.4' fill='%23f5c64f'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="importmap">{ "imports": { "three": "./js/vendor/three.module.js" } }</script>
+</head>
+<body>
+
+  <canvas id="world"></canvas>
+
+  <button id="wordmark" title="Back to the floor">THE FLOOR</button>
+  <button id="who" title="Players and bankrolls"><span class="ava"></span><span id="who-name">Player 1</span></button>
+  <button id="bank" title="Players and bankrolls">
+    <span class="stack"><i></i><i></i><i></i><i></i></span>
+    <b id="bank-amt">0</b>
+  </button>
+
+  <div id="hud">
+    <div id="aim" hidden></div>
+    <div id="prompt" hidden><b>E</b><span id="prompt-text"></span></div>
+    <div id="splash">
+      <div class="splash-inner">
+        <h1>THE FLOOR</h1>
+        <p class="sub">An after-hours casino for you and your friends. Honest odds, play money, real grudges.</p>
+        <p class="enter">click anywhere to walk in</p>
+      </div>
+      <p class="legend"><b>W A S D</b> move<i>·</i><b>mouse</b> look<i>·</i><b>E</b> sit down<i>·</i><b>esc</b> stand up</p>
+    </div>
+  </div>
+
+  <section id="room">
+    <div id="room-sign"></div>
+    <div id="room-tag"></div>
+    <div id="room-body"></div>
+  </section>
+
+  <a id="exit" href="../">leave the floor</a>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

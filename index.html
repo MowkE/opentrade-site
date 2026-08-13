@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OpenTrade</title>
+  <meta name="description" content="Master the market. Play Higher/Lower, Tickerdle, and League vs ChatGPT. OpenTrade is a product preview, not investment advice." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23fff'/%3E%3Cpath d='M16 5 C10 5 6 10 6 15 c0 6 4.5 10 10 10 s10-4 10-10 C26 10 22 5 16 5 Z' fill='%23111'/%3E%3Cellipse cx='16' cy='19' rx='6.5' ry='5.5' fill='%23fff'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+
+<aside id="side">
+  <a id="logo" href="#">
+    <span class="logo-dot">
+      <svg viewBox="0 0 48 48" width="26" height="26">
+        <path d="M24 6 C14 6 8 13 8 22 c0 9 7 15 16 15 s16-6 16-15 C40 13 34 6 24 6 Z" fill="#16161a"/>
+        <path d="M13 10 L8 3 L17 6 Z M35 10 L40 3 L31 6 Z" fill="#16161a"/>
+        <ellipse cx="24" cy="27" rx="10" ry="8.5" fill="#fff"/>
+        <circle cx="17.5" cy="20" r="2.2" fill="#fff"/>
+        <circle cx="30.5" cy="20" r="2.2" fill="#fff"/>
+        <circle cx="18" cy="20.4" r="1.1" fill="#16161a"/>
+        <circle cx="30" cy="20.4" r="1.1" fill="#16161a"/>
+        <ellipse cx="24" cy="25.5" rx="2.4" ry="1.9" fill="#16161a"/>
+        <path d="M20 29 q4 3 8 0" stroke="#16161a" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <b>OpenTrade</b>
+  </a>
+
+  <button class="create" id="create-game">
+    <svg viewBox="0 0 20 20" width="16" height="16"><path d="M10 4 v12 M4 10 h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    Create a game
+  </button>
+
+  <nav id="nav">
+    <button class="nv on" data-nav="home">
+      <svg viewBox="0 0 22 22"><path d="M4 10.5 L11 4 L18 10.5 V18 a1 1 0 0 1 -1 1 H5 a1 1 0 0 1 -1 -1 Z" fill="none" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 19 v-5 h4 v5" fill="none" stroke-width="1.8"/></svg>
+      Home
+    </button>
+    <button class="nv" data-nav="play" data-toast="Play opens in the app">
+      <svg viewBox="0 0 22 22"><rect x="3.5" y="5.5" width="15" height="11" rx="2.5" fill="none" stroke-width="1.8"/><path d="M8 9 v4 M6 11 h4 M14.5 10 h.01 M16 12.5 h.01" stroke-width="1.8" stroke-linecap="round"/></svg>
+      Play
+    </button>
+    <a class="nv floor-tab" href="floor/">
+      <svg viewBox="0 0 22 22"><circle cx="11" cy="11" r="7.2" fill="none" stroke-width="1.8"/><circle cx="11" cy="11" r="2.6" fill="none" stroke-width="1.8"/><path d="M11 3.8 v3 M11 15.2 v3 M3.8 11 h3 M15.2 11 h3" stroke-width="1.6"/></svg>
+      The floor
+      <i class="tag3d">3D</i>
+    </a>
+    <button class="nv" data-nav="league" data-toast="League opens in the app">
+      <svg viewBox="0 0 22 22"><path d="M4 14 c0-5 3-9 7-9 s7 4 7 9" fill="none" stroke-width="1.8" stroke-linecap="round"/><circle cx="11" cy="15.5" r="2.6" fill="none" stroke-width="1.8"/></svg>
+      League
+    </button>
+    <button class="nv" data-nav="compete" data-toast="Compete opens in the app">
+      <svg viewBox="0 0 22 22"><path d="M7 4.5 h8 v5 a4 4 0 0 1 -8 0 Z" fill="none" stroke-width="1.8" stroke-linejoin="round"/><path d="M7 6 H4.5 a2.5 2.5 0 0 0 2.6 3 M15 6 h2.5 a2.5 2.5 0 0 1 -2.6 3 M11 13.5 v2.5 M8 18.5 h6 M9.2 16 h3.6 v2.5 H9.2 Z" fill="none" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      Compete
+    </button>
+    <button class="nv" data-nav="board" data-toast="Leaderboard opens in the app">
+      <svg viewBox="0 0 22 22"><circle cx="11" cy="8" r="3.6" fill="none" stroke-width="1.8"/><path d="M8.6 10.8 L7.5 18.5 L11 16.4 L14.5 18.5 L13.4 10.8" fill="none" stroke-width="1.7" stroke-linejoin="round"/></svg>
+      Leaderboard
+    </button>
+    <button class="nv" data-nav="profile" data-toast="Profile opens in the app">
+      <svg viewBox="0 0 22 22"><circle cx="11" cy="8" r="3.6" fill="none" stroke-width="1.8"/><path d="M4.5 18.5 a6.5 5.5 0 0 1 13 0" fill="none" stroke-width="1.8" stroke-linecap="round"/></svg>
+      Profile
+    </button>
+    <button class="nv" data-nav="friends" data-toast="Grab a link in the app and drag a friend in">
+      <svg viewBox="0 0 22 22"><circle cx="8" cy="8.5" r="3" fill="none" stroke-width="1.7"/><circle cx="15.5" cy="9.5" r="2.4" fill="none" stroke-width="1.7"/><path d="M3 18 a5 4.4 0 0 1 10 0 M13.5 18 a4.3 3.8 0 0 1 5.5 -3.4" fill="none" stroke-width="1.7" stroke-linecap="round"/></svg>
+      play w friends
+    </button>
+  </nav>
+
+  <a id="discord" href="#" data-toast="Discord invite lives in the app">
+    <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M19.6 5.6 A16.6 16.6 0 0 0 15.5 4.3 l-.2.4 a15.3 15.3 0 0 0 -6.6 0 l-.2 -.4 A16.6 16.6 0 0 0 4.4 5.6 C1.9 9.4 1.2 13.1 1.5 16.7 a16.7 16.7 0 0 0 5 2.6 l.6 -1 a10.8 10.8 0 0 1 -1.7 -.8 l.4 -.3 a11.9 11.9 0 0 0 10.4 0 l.4.3 a10.8 10.8 0 0 1 -1.7.8 l.6 1 a16.7 16.7 0 0 0 5 -2.6 c.4 -4.2 -.7 -7.8 -2.9 -11.1 Z M8.7 14.4 c-1 0 -1.8 -.9 -1.8 -2 s.8 -2 1.8 -2 s1.8.9 1.8 2 s-.8 2 -1.8 2 Z m6.6 0 c-1 0 -1.8 -.9 -1.8 -2 s.8 -2 1.8 -2 s1.8.9 1.8 2 s-.8 2 -1.8 2 Z"/></svg>
+    Discord
+  </a>
+</aside>
+
+<main id="main">
+  <header id="head">
+    <h1>Master the Market</h1>
+    <div id="flags">
+      <button class="flag on" title="US markets" data-toast="US markets selected">
+        <svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><path d="M0 2h30M0 6h30M0 10h30M0 14h30M0 18h30" stroke="#c8322e" stroke-width="2"/><rect width="13" height="10" fill="#2c3b8f"/></svg>
+      </button>
+      <button class="flag" title="India markets" data-toast="India markets are coming to the preview">
+        <svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><rect width="30" height="6.6" fill="#f5943c"/><rect y="13.4" width="30" height="6.6" fill="#2c8f4a"/><circle cx="15" cy="10" r="2.4" fill="none" stroke="#2c3b8f" stroke-width="1"/></svg>
+      </button>
+    </div>
+    <div id="stats">
+      <div class="stat"><svg viewBox="0 0 20 20" class="flame"><path d="M10 2 c1 3 4 4.5 4 8 a4 4 0 0 1 -8 0 c0 -2 1.2 -3 2 -4 c.3 1 .8 1.6 1.6 2 C9.2 6 9.4 4 10 2 Z" fill="#ff6b35"/></svg><b id="st-streak">0d</b><span>streak</span></div>
+      <div class="stat"><svg viewBox="0 0 20 20" class="cup"><path d="M6 3.5 h8 v4.5 a4 4 0 0 1 -8 0 Z M6 5 H3.8 a2.2 2.2 0 0 0 2.4 2.7 M14 5 h2.2 a2.2 2.2 0 0 1 -2.4 2.7 M10 12 v2 M7.4 16.5 h5.2 M8.4 14 h3.2 v2.5 H8.4 Z" fill="none" stroke="#c9c9d4" stroke-width="1.5" stroke-linejoin="round"/></svg><b id="st-xp">0</b><span>xp</span></div>
+      <div class="stat"><span class="gc"></span><b id="st-coins">100</b><span>g coins</span></div>
+    </div>
+  </header>
+
+  <div id="cols">
+    <section id="content">
+
+      <div id="streak-card">
+        <div class="sc-top">
+          <div class="sc-left">
+            <p class="sc-label">Daily Streak</p>
+            <p class="sc-days"><b id="sc-days">0</b> days</p>
+          </div>
+          <div class="sc-week" id="sc-week"></div>
+          <button class="tshirt" data-toast="50 day streak wins the shirt. Day 1 starts now.">
+            <svg viewBox="0 0 20 20" width="13" height="13"><path d="M7 3 L10 4.5 L13 3 L17 5.5 L15.5 8.5 L13.5 7.5 V17 h-7 V7.5 L4.5 8.5 L3 5.5 Z" fill="#fff"/></svg>
+            <b>50 days</b> to free tshirt
+          </button>
+        </div>
+        <button class="sc-quick" id="quickstart">
+          <span class="gary-mini">
+            <svg viewBox="0 0 120 130" aria-hidden="true">
+              <g class="g-body">
+                <path d="M28 36 L18 12 L40 24 Z M92 36 L102 12 L80 24 Z" fill="#17171b"/>
+                <path d="M32 34 L26 20 L38 27 Z M88 34 L94 20 L82 27 Z" fill="#fff"/>
+                <circle cx="60" cy="52" r="34" fill="#17171b"/>
+                <path d="M60 40 a26 26 0 0 1 26 24 a26 30 0 0 1 -52 0 a26 26 0 0 1 26 -24" fill="#fff"/>
+                <circle cx="47" cy="50" r="4.6" fill="#17171b"/>
+                <circle cx="73" cy="50" r="4.6" fill="#17171b"/>
+                <circle cx="48.6" cy="48.6" r="1.5" fill="#fff"/>
+                <circle cx="74.6" cy="48.6" r="1.5" fill="#fff"/>
+                <ellipse cx="60" cy="62" rx="5.5" ry="4.5" fill="#17171b"/>
+                <path d="M52 70 q8 6 16 0" stroke="#17171b" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+                <path d="M38 82 q22 12 44 0 l-4 14 q-18 8 -36 0 Z" fill="#f4652e"/>
+                <path d="M52 94 l8 12 l8 -12 Z" fill="#d94f1e"/>
+                <path d="M14 78 q-6 -14 8 -18 l6 10 Z" fill="#17171b"/>
+              </g>
+            </svg>
+          </span>
+          <span class="sc-quick-copy">
+            <i>Quick start</i>
+            <b>Play Higher or Lower</b>
+          </span>
+          <span class="go"><svg viewBox="0 0 20 20" width="18" height="18"><path d="M4 10 h11 M10.5 5 L15.5 10 L10.5 15" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+      </div>
+
+      <div id="games">
+        <button class="game start" id="card-hl">
+          <i class="start-here">Start here</i>
+          <b>Higher/Lower</b>
+          <span class="g-foot"><em>Easy 1/12</em>
+            <svg viewBox="0 0 20 20" width="18" height="18"><path d="M4 10 h11 M10.5 5 L15.5 10 L10.5 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </button>
+        <button class="game" data-toast="Tickerdle opens in the app" data-quest="q2">
+          <b>Tickerdle</b>
+          <span class="g-foot"><em>Easy 1/12</em>
+            <svg viewBox="0 0 20 20" width="18" height="18"><path d="M4 10 h11 M10.5 5 L15.5 10 L10.5 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </button>
+        <button class="game" data-toast="News opens in the app">
+          <b>News</b>
+          <span class="g-foot"><em>Easy 1/12</em>
+            <svg viewBox="0 0 20 20" width="18" height="18"><path d="M4 10 h11 M10.5 5 L15.5 10 L10.5 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </button>
+        <button class="game" data-toast="Runway opens in the app">
+          <b>Runway</b>
+          <span class="g-foot"><em>Easy 1/12</em>
+            <svg viewBox="0 0 20 20" width="18" height="18"><path d="M4 10 h11 M10.5 5 L15.5 10 L10.5 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </button>
+      </div>
+
+      <button id="league-card" data-toast="League vs ChatGPT opens in the app">
+        <span class="lg-info" title="Weekly league against the AIs">
+          <svg viewBox="0 0 20 20" width="15" height="15"><circle cx="10" cy="10" r="8" fill="none" stroke="#111" stroke-width="1.6"/><path d="M10 9 v5 M10 6.2 v.2" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        <b class="lg-title">League</b>
+        <span class="lg-stage">
+          <span class="gary-big">
+            <svg viewBox="0 0 140 120" aria-hidden="true">
+              <path d="M26 40 L14 12 L42 26 Z M114 40 L126 12 L98 26 Z" fill="#17171b"/>
+              <path d="M31 37 L24 20 L40 29 Z M109 37 L116 20 L100 29 Z" fill="#fff"/>
+              <path d="M8 78 q-8 -20 12 -22 l8 14 Z" fill="#17171b"/>
+              <path d="M132 78 q8 -20 -12 -22 l-8 14 Z" fill="#17171b"/>
+              <circle cx="70" cy="56" r="38" fill="#17171b"/>
+              <path d="M70 42 a30 30 0 0 1 30 28 a30 34 0 0 1 -60 0 a30 30 0 0 1 30 -28" fill="#fff"/>
+              <circle cx="55" cy="54" r="5" fill="#17171b"/>
+              <circle cx="85" cy="54" r="5" fill="#17171b"/>
+              <circle cx="56.8" cy="52.4" r="1.7" fill="#fff"/>
+              <circle cx="86.8" cy="52.4" r="1.7" fill="#fff"/>
+              <ellipse cx="70" cy="68" rx="6" ry="5" fill="#17171b"/>
+              <path d="M58 76 q12 10 24 0" stroke="#17171b" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <path d="M62 79 q8 7 16 0 q-2 9 -8 9 t-8 -9" fill="#e05a5a"/>
+              <path d="M44 92 q26 14 52 0 l-5 16 q-21 9 -42 0 Z" fill="#f4652e"/>
+            </svg>
+          </span>
+          <b class="vs">vs</b>
+          <span class="gpt">
+            <svg viewBox="0 0 24 24" width="52" height="52" fill="#111"><path d="M21.7 9.8 a5.4 5.4 0 0 0 -.5 -4.5 a5.5 5.5 0 0 0 -5.9 -2.6 A5.4 5.4 0 0 0 11.2 1 A5.5 5.5 0 0 0 6 4.8 a5.4 5.4 0 0 0 -3.6 2.6 a5.5 5.5 0 0 0 .7 6.4 a5.4 5.4 0 0 0 .5 4.5 a5.5 5.5 0 0 0 5.9 2.6 a5.4 5.4 0 0 0 4.1 1.8 a5.5 5.5 0 0 0 5.2 -3.8 a5.4 5.4 0 0 0 3.6 -2.6 a5.5 5.5 0 0 0 -.7 -6.4 Z m-8.1 11.3 a4 4 0 0 1 -2.6 -.9 l.1 -.1 l4.3 -2.5 a.7.7 0 0 0 .4 -.6 v-6 l1.8 1 v5 a4.1 4.1 0 0 1 -4 4.1 Z m-8.8 -3.7 a4 4 0 0 1 -.5 -2.7 l.1.1 l4.3 2.5 a.7.7 0 0 0 .7 0 l5.3 -3 v2.1 l-4.4 2.5 a4.1 4.1 0 0 1 -5.5 -1.5 Z M3.6 8.1 a4 4 0 0 1 2.1 -1.8 v5.1 a.7.7 0 0 0 .3.6 l5.2 3 l-1.8 1 l-4.3 -2.5 a4.1 4.1 0 0 1 -1.5 -5.4 Z m14.9 3.5 L13.2 8.5 l1.8 -1 l4.3 2.5 a4.1 4.1 0 0 1 -.6 7.3 v-5.1 a.7.7 0 0 0 -.2 -.6 Z m1.8 -2.7 l-.1 -.1 l-4.3 -2.5 a.7.7 0 0 0 -.7 0 l-5.3 3 V7.2 l4.4 -2.5 a4 4 0 0 1 6 4.2 Z M8.9 12.9 l-1.8 -1 V6.8 a4 4 0 0 1 6.6 -3.1 l-.1.1 L9.3 6.3 a.7.7 0 0 0 -.4.6 Z m1 -2.1 L12.2 9.4 l2.4 1.4 v2.7 l-2.4 1.4 l-2.4 -1.4 Z"/></svg>
+            <b>ChatGPT</b>
+          </span>
+        </span>
+      </button>
+
+      <p id="legal">OpenTrade is a product preview, not investment advice. Investing involves risk, including possible loss of principal.</p>
+    </section>
+
+    <aside id="rightrail">
+      <div id="quests">
+        <h3>Daily quests <span id="q-count">0/3</span></h3>
+        <label class="q"><input type="checkbox" id="q1" disabled><span>Create a game :)</span><i>+50g</i></label>
+        <label class="q"><input type="checkbox" id="q2" disabled><span>Play Tickerdle with a friend</span><i>+50g</i></label>
+        <label class="q"><input type="checkbox" id="q3" disabled><span>Play Higher/Lower</span><i>+50g</i></label>
+      </div>
+    </aside>
+  </div>
+
+  <div id="helper">
+    <div id="bubble">
+      <button id="bubble-x" aria-label="Dismiss Gary">×</button>
+      <p>Hi, I'm Gary. Pick any of the four games to start. Higher or Lower takes seconds to learn.</p>
+      <button id="bubble-cta">Play Higher or Lower</button>
+    </div>
+    <span class="gary-mini wave">
+      <svg viewBox="0 0 120 130" aria-hidden="true">
+        <path d="M28 36 L18 12 L40 24 Z M92 36 L102 12 L80 24 Z" fill="#17171b"/>
+        <path d="M32 34 L26 20 L38 27 Z M88 34 L94 20 L82 27 Z" fill="#fff"/>
+        <path d="M104 60 q14 -8 10 -22 l-14 4 Z" fill="#17171b"/>
+        <circle cx="60" cy="52" r="34" fill="#17171b"/>
+        <path d="M60 40 a26 26 0 0 1 26 24 a26 30 0 0 1 -52 0 a26 26 0 0 1 26 -24" fill="#fff"/>
+        <circle cx="47" cy="50" r="4.6" fill="#17171b"/>
+        <circle cx="73" cy="50" r="4.6" fill="#17171b"/>
+        <circle cx="48.6" cy="48.6" r="1.5" fill="#fff"/>
+        <circle cx="74.6" cy="48.6" r="1.5" fill="#fff"/>
+        <ellipse cx="60" cy="62" rx="5.5" ry="4.5" fill="#17171b"/>
+        <path d="M52 70 q8 6 16 0" stroke="#17171b" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        <path d="M38 82 q22 12 44 0 l-4 14 q-18 8 -36 0 Z" fill="#f4652e"/>
+      </svg>
+    </span>
+    <button id="feedback" data-toast="Feedback goes straight to the team">
+      <svg viewBox="0 0 20 20" width="14" height="14" fill="currentColor"><path d="M3 4 h14 v9 H8 l-4 3.5 V13 H3 Z"/></svg>
+      Feedback
+    </button>
+  </div>
+
+  <!-- Higher/Lower, playable -->
+  <div id="hl-back" hidden>
+    <div id="hl-modal" role="dialog" aria-label="Higher or Lower">
+      <div class="hl-head">
+        <b>Higher or Lower</b>
+        <span id="hl-round">round 1</span>
+        <button id="hl-x" aria-label="Close">×</button>
+      </div>
+      <div class="hl-tick"><span id="hl-name">$GARY</span><span id="hl-price">100.00</span></div>
+      <canvas id="chart" width="560" height="230"></canvas>
+      <div class="hl-calls">
+        <button id="call-up" class="hl-call up">Higher</button>
+        <button id="call-down" class="hl-call down">Lower</button>
+      </div>
+      <div class="hl-foot">
+        <span id="hl-score">you 0 · gary 0</span>
+        <span id="gary-says">Gary bets you can't beat him.</span>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script type="module" src="js/site.js"></script>
+</body>
+</html>
