@@ -13,6 +13,8 @@
 </head>
 <body>
 
+<canvas id="aurora" aria-hidden="true"></canvas>
+
 <aside id="side">
   <a id="logo" href="#">
     <span class="logo-dot">
@@ -70,7 +72,7 @@
 <main id="main">
   <header id="head">
     <h1>Master the Market</h1>
-    <div id="flags">
+    <div id="flags"><span id="flag-thumb" aria-hidden="true"></span>
       <button class="flag on" title="US markets" data-toast="US markets selected">
         <svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><path d="M0 2h30M0 6h30M0 10h30M0 14h30M0 18h30" stroke="#c8322e" stroke-width="2"/><rect width="13" height="10" fill="#2c3b8f"/></svg>
       </button>
@@ -109,24 +111,32 @@
         <button class="game start" id="card-hl">
           <i class="start-here">Start here</i>
           <b>Higher/Lower</b>
+          <canvas class="spark" width="150" height="40" aria-hidden="true"></canvas>
+          <span class="tease">Call the next candle</span>
           <span class="g-foot"><em>Easy 1/12</em>
             <svg viewBox="0 0 20 20" width="18" height="18"><path d="M4 10 h11 M10.5 5 L15.5 10 L10.5 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </span>
         </button>
         <button class="game" data-toast="Tickerdle opens in the app" data-quest="q2">
           <b>Tickerdle</b>
+          <span class="tkd" aria-hidden="true"><i>T</i><i>K</i><i>D</i><i>L</i><i>E</i></span>
+          <span class="tease">Guess the mystery ticker in six</span>
           <span class="g-foot"><em>Easy 1/12</em>
             <svg viewBox="0 0 20 20" width="18" height="18"><path d="M4 10 h11 M10.5 5 L15.5 10 L10.5 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </span>
         </button>
         <button class="game" data-toast="News opens in the app">
           <b>News</b>
+          <span class="wire" aria-hidden="true"><i class="live"></i><em id="wire-line">Fed holds. Markets shrug.</em></span>
+          <span class="tease">Trade the headlines</span>
           <span class="g-foot"><em>Easy 1/12</em>
             <svg viewBox="0 0 20 20" width="18" height="18"><path d="M4 10 h11 M10.5 5 L15.5 10 L10.5 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </span>
         </button>
         <button class="game" data-toast="Runway opens in the app">
           <b>Runway</b>
+          <span class="rw" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+          <span class="tease">Keep the startup alive</span>
           <span class="g-foot"><em>Easy 1/12</em>
             <svg viewBox="0 0 20 20" width="18" height="18"><path d="M4 10 h11 M10.5 5 L15.5 10 L10.5 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </span>
@@ -191,6 +201,7 @@
   <!-- Higher/Lower, playable -->
   <div id="hl-back" hidden>
     <div id="hl-modal" role="dialog" aria-label="Higher or Lower">
+      <div class="grab" aria-hidden="true"></div>
       <div class="hl-head">
         <b>Higher or Lower</b>
         <span id="hl-round">round 1</span>
