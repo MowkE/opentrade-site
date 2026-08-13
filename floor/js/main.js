@@ -3,16 +3,16 @@
 // and their bankrolls. Walk to a table, press E, and its room slides
 // up; game rooms live in js/games/ and are rebuilt fresh each visit.
 
-import { store, watchMoney, fmt, toast, sfx } from './engine.js?v7';
-import { buildWorld } from './world.js?v7';
-import higherlower from './games/higherlower.js?v7';
-import tickerdle from './games/tickerdle.js?v7';
-import fanstocks from './games/fanstocks.js?v7';
-import league from './games/league.js?v7';
-import cashroyale from './games/cashroyale.js?v7';
-import surfers from './games/surfers.js?v7';
-import runway from './games/runway.js?v7';
-import news from './games/news.js?v7';
+import { store, watchMoney, fmt, toast, sfx } from './engine.js?v10';
+import { buildWorld } from './world.js?v10';
+import higherlower from './games/higherlower.js?v10';
+import tickerdle from './games/tickerdle.js?v10';
+import fanstocks from './games/fanstocks.js?v10';
+import league from './games/league.js?v10';
+import cashroyale from './games/cashroyale.js?v10';
+import surfers from './games/surfers.js?v10';
+import runway from './games/runway.js?v10';
+import news from './games/news.js?v10';
 
 const GAMES = [higherlower, tickerdle, fanstocks, league, cashroyale, surfers, runway, news];
 
@@ -88,6 +88,11 @@ world.onPromptChange(game => {
 world.onLockChange(locked => {
   $('splash').hidden = locked || !!open;
   $('aim').hidden = !locked;
+});
+
+world.onCoinPickup(() => {
+  store.credit(5);
+  sfx.coin();
 });
 
 window.addEventListener('keydown', e => {

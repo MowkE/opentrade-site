@@ -4,7 +4,7 @@
 // House edge with sensible play is about half a percent, which is why
 // this table has the best sign on the floor.
 
-import { newShoe, dealTo, betBox, verdict, store, toast, fmt } from '../engine.js?v7';
+import { newShoe, dealTo, betBox, verdict, store, toast, fmt } from '../engine.js?v10';
 
 let shoe = newShoe(6);
 const draw = () => {

@@ -9,6 +9,10 @@
 // primitives and canvas textures; nothing is downloaded.
 
 import * as THREE from 'three';
+import { EffectComposer } from './vendor/postprocessing/EffectComposer.js';
+import { RenderPass } from './vendor/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from './vendor/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from './vendor/postprocessing/OutputPass.js';
 
 const ROOM_W = 54, ROOM_D = 36, WALL_H = 7;
 
@@ -182,7 +186,7 @@ function legs(group, positions, height = 0.86) {
 
 /* chunky rect table with the glowing white rim of the inspo */
 function tableBulbs(g, w, d, railY, rr) {
-  const bulbM = glow(0xffe3a0, 1.5);
+  const bulbM = glow(0xffe3a0, 2.3);
   const bulbG = new THREE.SphereGeometry(0.032, 6, 5);
   const P = 2 * (w + d);
   const per = Math.round(P / 0.36);
@@ -249,7 +253,7 @@ function roundRimTable(radius, opts = {}) {
     new THREE.Vector2(radius * 0.62, 0.84), new THREE.Vector2(radius * 0.65, 0.9),
   ], 24), mat(0x2a1a2e, { roughness: 0.5 }));
   g.add(top, bumper, ped);
-  const bulbM = glow(0xffe3a0, 1.5);
+  const bulbM = glow(0xffe3a0, 2.3);
   const bulbG = new THREE.SphereGeometry(0.032, 6, 5);
   const n = Math.round(radius * Math.PI * 2 / 0.36);
   for (let i = 0; i < n; i++) {
@@ -424,6 +428,13 @@ export function buildWorld(canvas, games) {
   const camera = new THREE.PerspectiveCamera(74, 2, 0.1, 130);
   scene.add(camera);
 
+  // bloom: the neon finally glows
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  const bloomPass = new UnrealBloomPass(new THREE.Vector2(1280, 720), 0.38, 0.4, 1.8);
+  composer.addPass(bloomPass);
+  composer.addPass(new OutputPass());
+
   // floor and shell
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(ROOM_W, ROOM_D),
     new THREE.MeshStandardMaterial({ map: carpetTexture(), roughness: 0.95 }));
@@ -521,7 +532,7 @@ export function buildWorld(canvas, games) {
   scene.add(new THREE.AmbientLight(0x565073, 3.0));
   // broad warm fill so the room reads bright like the reference
   for (const [fx, fz] of [[-14, -9], [14, -9], [-14, 7], [14, 7], [0, -1], [0, 14]]) {
-    const fill = new THREE.PointLight(0xffe2c2, 225, 30, 1.65);
+    const fill = new THREE.PointLight(0xffe2c2, 205, 30, 1.65);
     fill.position.set(fx, 6.2, fz);
     scene.add(fill);
   }
@@ -698,6 +709,18 @@ export function buildWorld(canvas, games) {
   billboard.position.set(0, 4.4, ROOM_D / 2 - 0.08);
   billboard.rotation.y = Math.PI;
   scene.add(billboard);
+  {
+    const bm = glow(0xffd98a, 2.2);
+    const bg2 = new THREE.SphereGeometry(0.06, 8, 6);
+    const bw = 11.3, bh = 5.1, per = [];
+    for (let x = -bw / 2; x <= bw / 2; x += 0.62) per.push([x, 4.4 - bh / 2], [x, 4.4 + bh / 2]);
+    for (let y = 4.4 - bh / 2; y <= 4.4 + bh / 2; y += 0.62) per.push([-bw / 2, y], [bw / 2, y]);
+    for (const [bx2, by2] of per) {
+      const b = new THREE.Mesh(bg2, bm);
+      b.position.set(bx2, by2, ROOM_D / 2 - 0.14);
+      scene.add(b);
+    }
+  }
 
   // standings board on the right wall
   const board = new THREE.Mesh(new THREE.PlaneGeometry(5.6, 2.8),
@@ -1085,7 +1108,7 @@ export function buildWorld(canvas, games) {
     scene.add(led);
 
     // table light
-    const spot = new THREE.SpotLight(0xfff0d8, 430, 13, 0.8, 0.55, 1.5);
+    const spot = new THREE.SpotLight(0xfff0d8, 370, 13, 0.8, 0.55, 1.5);
     spot.position.set(spec.pos[0], 5.4, spec.pos[1]);
     spot.target.position.set(spec.pos[0], 0.9, spec.pos[1]);
     scene.add(spot, spot.target);
@@ -1155,6 +1178,17 @@ export function buildWorld(canvas, games) {
       target.position.set(Math.cos(a) * 9, -5.9, Math.sin(a) * 9);
       rig.add(s, target);
       s.target = target;
+      // the visible shaft of light
+      const dir = new THREE.Vector3(Math.cos(a) * 9, -5.9, Math.sin(a) * 9);
+      const len = dir.length();
+      const coneGeo = new THREE.ConeGeometry(2.1, len, 18, 1, true);
+      coneGeo.translate(0, -len / 2, 0);
+      const cone = new THREE.Mesh(coneGeo, new THREE.MeshBasicMaterial({
+        color: bc, transparent: true, opacity: 0.055,
+        blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide,
+      }));
+      cone.quaternion.setFromUnitVectors(new THREE.Vector3(0, -1, 0), dir.normalize());
+      rig.add(cone);
     });
     rig.name = 'discorig';
     scene.add(rig);
@@ -1213,6 +1247,28 @@ export function buildWorld(canvas, games) {
     const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.07, 10, 8), glow(0xffdf9e, 2.4));
     bulb.position.set(-23.4, 3.49, bz);
     scene.add(cord, shade, bulb);
+  }
+
+  // ───────────────────────────── loose coins on the carpet
+  let onCoin = () => {};
+  const coins = [];
+  {
+    const coinMat = new THREE.MeshStandardMaterial({
+      color: 0xf2c14b, metalness: 0.7, roughness: 0.25,
+      emissive: 0xf2a91b, emissiveIntensity: 1.1,
+    });
+    const rimMat = mat(0x8a6a1d, { metalness: 0.6, roughness: 0.3 });
+    for (const [cx, cz] of [[-3, -12], [8, -10], [-12, -3], [-18, 8], [-6, 3], [6, 8],
+      [12, -1], [19, 1], [22, 9], [-20, -8], [-9, 13], [16, 12]]) {
+      const cg = new THREE.Group();
+      const face = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.035, 18), coinMat);
+      face.rotation.x = Math.PI / 2;
+      const rim = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.02, 8, 22), rimMat);
+      cg.add(face, rim);
+      cg.position.set(cx, 0.55, cz);
+      scene.add(cg);
+      coins.push({ mesh: cg, x: cx, z: cz, live: true, t: 0, phase: cx * 0.7 + cz });
+    }
   }
 
   // ───────────────────────────── your hands
@@ -1338,6 +1394,23 @@ export function buildWorld(canvas, games) {
 
     for (const s of spinners) { if (s.name === 'discoball') s.rotation.y = t * 0.6; else s.rotation.z = t * 0.5; }
 
+    // coins spin, bob, and jump into your pocket
+    for (const c of coins) {
+      if (!c.live) {
+        c.t -= dt;
+        if (c.t <= 0) { c.live = true; c.mesh.visible = true; }
+        continue;
+      }
+      c.mesh.rotation.y = t * 2.6 + c.phase;
+      c.mesh.position.y = 0.55 + Math.sin(t * 2 + c.phase) * 0.08;
+      if (!frozen && Math.hypot(player.x - c.x, player.z - c.z) < 0.8) {
+        c.live = false;
+        c.mesh.visible = false;
+        c.t = 30;
+        onCoin();
+      }
+    }
+
     // live screens
     for (const lt of liveTex) {
       if (lt.every === 0) { lt.fn(dt); continue; }
@@ -1348,10 +1421,12 @@ export function buildWorld(canvas, games) {
     const w = canvas.clientWidth, h = canvas.clientHeight;
     if (canvas.width !== (w * renderer.getPixelRatio() | 0)) {
       renderer.setSize(w, h, false);
+      composer.setSize(w, h);
+      bloomPass.resolution.set(w, h);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
     }
-    renderer.render(scene, camera);
+    composer.render();
     requestAnimationFrame(frame);
   }
 
@@ -1366,6 +1441,7 @@ export function buildWorld(canvas, games) {
     stations: stations.map(s => ({ id: s.game.id, name: s.game.name, x: s.x, z: s.z })),
     get currentPrompt() { return promptFor ? promptFor.game : null; },
     onPromptChange(fn) { onPrompt = fn; },
+    onCoinPickup(fn) { onCoin = fn; },
     onLockChange(fn) { onLock = fn; },
     freeze(v) {
       frozen = v;
