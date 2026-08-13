@@ -3,20 +3,18 @@
 // and their bankrolls. Walk to a table, press E, and its room slides
 // up; game rooms live in js/games/ and are rebuilt fresh each visit.
 
-import { store, watchMoney, fmt, toast } from './engine.js';
-import { buildWorld } from './world.js';
-import blackjack from './games/blackjack.js';
-import roulette from './games/roulette.js';
-import baccarat from './games/baccarat.js';
-import craps from './games/craps.js';
-import poker from './games/poker.js';
-import slots from './games/slots.js';
-import videopoker from './games/videopoker.js';
-import keno from './games/keno.js';
-import sicbo from './games/sicbo.js';
-import war from './games/war.js';
+import { store, watchMoney, fmt, toast, sfx } from './engine.js?v3';
+import { buildWorld } from './world.js?v3';
+import higherlower from './games/higherlower.js?v3';
+import tickerdle from './games/tickerdle.js?v3';
+import fanstocks from './games/fanstocks.js?v3';
+import league from './games/league.js?v3';
+import cashroyale from './games/cashroyale.js?v3';
+import surfers from './games/surfers.js?v3';
+import runway from './games/runway.js?v3';
+import news from './games/news.js?v3';
 
-const GAMES = [blackjack, roulette, baccarat, craps, poker, slots, videopoker, keno, sicbo, war];
+const GAMES = [higherlower, tickerdle, fanstocks, league, cashroyale, surfers, runway, news];
 
 const $ = id => document.getElementById(id);
 let open = null;
@@ -31,7 +29,15 @@ window.__world = world;   // console access for tinkering; harmless in productio
 
 // ------------------------------------------------------------ the bar
 
+let lastChips = null;
 watchMoney(() => {
+  if (lastChips !== null && store.chips > lastChips) {
+    sfx.coin();
+    $('bank').classList.remove('pop');
+    void $('bank').offsetWidth;
+    $('bank').classList.add('pop');
+  }
+  lastChips = store.chips;
   $('bank-amt').textContent = fmt(store.chips);
   $('who-name').textContent = store.player.name;
   world.paintBoard(store.players, store.player.id);
@@ -41,6 +47,7 @@ watchMoney(() => {
 
 function openRoom(game) {
   open = game;
+  sfx.sit();
   world.freeze(true);
   $('room').classList.add('open');
   $('room-sign').textContent = game.name;
@@ -53,11 +60,20 @@ function openRoom(game) {
 
 function closeRoom() {
   if (!open) return;
+  const leaving = open;
   open = null;
   $('room').classList.remove('open');
   $('room-body').textContent = '';
   world.freeze(false);
   $('splash').hidden = false;
+  // the next table is always two steps away
+  const others = (world.stations || []).filter(s => s.id !== leaving.id);
+  if (others.length) {
+    others.sort((a, b) =>
+      Math.hypot(a.x - world.player.x, a.z - world.player.z) -
+      Math.hypot(b.x - world.player.x, b.z - world.player.z));
+    toast(`Right next door: ${others[0].name}`);
+  }
 }
 
 $('wordmark').addEventListener('click', closeRoom);

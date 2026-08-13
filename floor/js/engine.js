@@ -261,6 +261,7 @@ export function countTo(el, from, to, ms = 600) {
 
 /** the verdict banner every table shares: win, lose, push */
 export function verdict(root, kind, text) {
+  if (kind === 'win') sfx.win(); else if (kind === 'lose') sfx.lose();
   const old = root.querySelector('.verdict');
   if (old) old.remove();
   const el = document.createElement('div');
@@ -288,3 +289,36 @@ export function toast(text) {
 
 /** standard money formatter */
 export const fmt = n => Math.round(n).toLocaleString();
+
+
+// ------------------------------------------------------------- sound
+// Three tiny synthesized notes: sitting down, winning, coins landing.
+// Created lazily after a user gesture; short, quiet, never looping.
+
+let actx = null;
+function ac() {
+  if (!actx) { try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch { return null; } }
+  if (actx && actx.state === 'suspended') actx.resume();
+  return actx;
+}
+function tone(freq, dur, type = 'sine', vol = 0.08, when = 0) {
+  const ctx = ac();
+  if (!ctx) return;
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.type = type;
+  o.frequency.value = freq;
+  const t0 = ctx.currentTime + when;
+  g.gain.setValueAtTime(0, t0);
+  g.gain.linearRampToValueAtTime(vol, t0 + 0.012);
+  g.gain.exponentialRampToValueAtTime(0.0004, t0 + dur);
+  o.connect(g).connect(ctx.destination);
+  o.start(t0);
+  o.stop(t0 + dur + 0.05);
+}
+export const sfx = {
+  sit() { tone(220, 0.09, 'triangle', 0.05); },
+  win() { tone(880, 0.12, 'sine', 0.07); tone(1318, 0.16, 'sine', 0.06, 0.09); },
+  lose() { tone(196, 0.16, 'triangle', 0.05); },
+  coin() { tone(1567, 0.07, 'square', 0.03); },
+};

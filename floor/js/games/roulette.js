@@ -4,7 +4,7 @@
 // carries the same house edge, 1 in 37, about 2.7 percent; the single
 // zero is the whole business model.
 
-import { CHIP_VALUES, rng, store, verdict, fmt } from '../engine.js';
+import { CHIP_VALUES, rng, store, verdict, fmt } from '../engine.js?v3';
 
 const REDS = new Set([1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]);
 // physical wheel order, for the spin
