@@ -878,3 +878,87 @@ a { color: inherit; text-decoration: none; }
 .nv { color: rgba(255, 253, 248, 0.68); }
 .nv:hover { color: #fff; }
 #logo b, .create { color: rgba(255, 253, 248, 0.92); }
+
+/* ═══ control system: order tickets and arcade buttons, not pills ═══
+   Buttons borrow from the subject's world: the hard rectangles of a
+   trading terminal and the physical press of an arcade cabinet.
+   Oswald caps for anything you can press; Nunito stays for reading. */
+
+/* primary action: a flat block with a hard shadow that you press flat */
+.hero-play {
+  border-radius: 6px;
+  background: var(--violet);
+  font: 500 16px var(--disp);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 0 #57419c;
+}
+.hero-play:hover { filter: brightness(1.09); }
+.hero-play:active { transform: translateY(4px); box-shadow: 0 0 0 #57419c; }
+
+.hero-alt {
+  font: 500 14px var(--disp);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* the buy/sell blocks: terminal truth, no rounding to soften them */
+.hl-call {
+  border-radius: 4px;
+  font: 500 17px var(--disp);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.hl-call.up { background: #2f7747; box-shadow: 0 4px 0 #1d4c2d; }
+.hl-call.down { background: #b3271b; box-shadow: 0 4px 0 #6e1811; }
+.hl-call:hover { filter: brightness(1.12); }
+.hl-call:active { transform: translateY(4px); box-shadow: none; }
+
+/* small controls: tickets, not tags */
+.tshirt {
+  border-radius: 4px;
+  font: 500 12px var(--disp);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 0 3px 0 #7e1e12;
+}
+.tshirt:active { transform: translateY(3px); box-shadow: none; }
+.create {
+  border-radius: 6px;
+  font: 500 13.5px var(--disp);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.55);
+}
+.create:active { transform: translateY(3px); box-shadow: none; }
+#discord {
+  border-radius: 6px;
+  font: 500 14px var(--disp);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  box-shadow: 0 4px 0 #37418f;
+}
+#discord:active { transform: translateY(4px) !important; box-shadow: none; }
+.rail-cta { border-radius: 5px; }
+#feedback { border-radius: 6px; box-shadow: 0 3px 0 rgba(0, 0, 0, 0.6); }
+#feedback:active { transform: translateY(3px); box-shadow: none; }
+#bubble-cta { font: 500 13.5px var(--disp); text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* pucks and toggles square up */
+.sc-quick .go { border-radius: 9px; }
+#flags { border-radius: 5px; }
+#flag-thumb { border-radius: 0; }
+.q input { border-radius: 4px; }
+.q input:checked::after { inset: 4px 3px 5px; }
+
+/* surfaces sharpen a step so the sharp controls belong */
+#streak-card, #league-card, #hero-desk { border-radius: 12px; }
+.game { border-radius: 10px; }
+.sc-quick { border-radius: 8px; }
+#money-card { border-radius: 12px; }
+#side, #rightrail { border-radius: 14px; }
+#hl-modal { border-radius: 12px; }
+.toast { border-radius: 5px; }
+.rail-btn, .rail-cta { border-radius: 5px; }
+#bubble { border-radius: 10px 10px 3px 10px; }
+#hl-modal .grab { border-radius: 2px; }
