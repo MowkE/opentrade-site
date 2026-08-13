@@ -168,7 +168,7 @@ function legs(group, positions, height = 0.86) {
 function rimTable(w, d, opts = {}) {
   const g = new THREE.Group();
   const topMat = opts.map
-    ? new THREE.MeshStandardMaterial({ map: opts.map, emissive: 0xffffff, emissiveMap: opts.map, emissiveIntensity: 0.55, roughness: 1 })
+    ? new THREE.MeshBasicMaterial({ map: opts.map })
     : mat(opts.color ?? C.dark, { roughness: 0.7 });
   const top = new THREE.Mesh(new THREE.BoxGeometry(w, 0.12, d), topMat);
   top.position.y = 0.92;
@@ -733,7 +733,7 @@ export function buildWorld(canvas, games) {
       marqueeTex.wrapS = THREE.RepeatWrapping;
       liveTex.push({ every: 0, acc: 0, fn: dt => { marqueeTex.offset.x += dt * 0.045; } });
       const marquee = new THREE.Mesh(new THREE.PlaneGeometry(5, 0.34),
-        new THREE.MeshStandardMaterial({ map: marqueeTex, emissive: 0xffffff, emissiveMap: marqueeTex, emissiveIntensity: 0.6, roughness: 0.5, side: THREE.DoubleSide }));
+        new THREE.MeshStandardMaterial({ map: marqueeTex, emissive: 0xffffff, emissiveMap: marqueeTex, emissiveIntensity: 0.6, roughness: 0.5 }));
       marquee.position.y = 2.9;
       g.add(marquee);
       const marqueeBox = new THREE.Mesh(new THREE.BoxGeometry(5.1, 0.44, 0.12), mat(0x171226));
@@ -770,7 +770,7 @@ export function buildWorld(canvas, games) {
     const bz = spec.pos[1] + (spec.pos[1] / len) * 1.7;
     const signMap = signTexture(game.name, spec.accent);
     const sign = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 0.75),
-      new THREE.MeshStandardMaterial({ map: signMap, emissive: 0xffffff, emissiveMap: signMap, emissiveIntensity: 1.05, side: THREE.DoubleSide, roughness: 0.6 }));
+      new THREE.MeshStandardMaterial({ map: signMap, emissive: 0xffffff, emissiveMap: signMap, emissiveIntensity: 1.05, roughness: 0.6 }));
     sign.position.set(bx, 3.5, bz);
     sign.rotation.y = Math.atan2(-spec.pos[0], -spec.pos[1]);
     scene.add(sign);
@@ -780,7 +780,7 @@ export function buildWorld(canvas, games) {
 
     // the green plaque under the sign
     const plaque = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 0.36),
-      new THREE.MeshStandardMaterial({ map: plaqueTexture(spec.plaque), emissive: 0xffffff, emissiveMap: plaqueTexture(spec.plaque), emissiveIntensity: 0.75, side: THREE.DoubleSide, roughness: 0.6 }));
+      new THREE.MeshStandardMaterial({ map: plaqueTexture(spec.plaque), emissive: 0xffffff, emissiveMap: plaqueTexture(spec.plaque), emissiveIntensity: 0.75, roughness: 0.6 }));
     plaque.position.set(bx, 2.85, bz);
     plaque.rotation.y = sign.rotation.y;
     scene.add(plaque);
@@ -788,7 +788,7 @@ export function buildWorld(canvas, games) {
     // LED odds board floating at the table's shoulder
     const ledMap = ledTexture(spec.led);
     const led = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 0.75),
-      new THREE.MeshStandardMaterial({ map: ledMap, emissive: 0xffffff, emissiveMap: ledMap, emissiveIntensity: 0.85, side: THREE.DoubleSide, roughness: 0.6 }));
+      new THREE.MeshStandardMaterial({ map: ledMap, emissive: 0xffffff, emissiveMap: ledMap, emissiveIntensity: 0.85, roughness: 0.6 }));
     const ledA = sign.rotation.y + 0.6;
     led.position.set(spec.pos[0] + Math.sin(ledA) * 2.1, 1.9, spec.pos[1] + Math.cos(ledA) * 2.1);
     led.rotation.y = sign.rotation.y;

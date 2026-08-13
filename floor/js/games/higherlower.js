@@ -2,7 +2,7 @@
 // The flagship, playable right at the table: call the next candle,
 // win G Coins, keep the streak. Same rules as the app.
 
-import { store, verdict, fmt } from '../engine.js?v3';
+import { store, verdict, fmt } from '../engine.js?v4';
 
 const N_SHOW = 26, N_REVEAL = 7;
 const TICKS = ['$GARY', '$BONE', '$HOWL', '$FETCH', '$ZOOM'];

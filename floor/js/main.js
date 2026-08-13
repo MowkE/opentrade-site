@@ -3,16 +3,16 @@
 // and their bankrolls. Walk to a table, press E, and its room slides
 // up; game rooms live in js/games/ and are rebuilt fresh each visit.
 
-import { store, watchMoney, fmt, toast, sfx } from './engine.js?v3';
-import { buildWorld } from './world.js?v3';
-import higherlower from './games/higherlower.js?v3';
-import tickerdle from './games/tickerdle.js?v3';
-import fanstocks from './games/fanstocks.js?v3';
-import league from './games/league.js?v3';
-import cashroyale from './games/cashroyale.js?v3';
-import surfers from './games/surfers.js?v3';
-import runway from './games/runway.js?v3';
-import news from './games/news.js?v3';
+import { store, watchMoney, fmt, toast, sfx } from './engine.js?v4';
+import { buildWorld } from './world.js?v4';
+import higherlower from './games/higherlower.js?v4';
+import tickerdle from './games/tickerdle.js?v4';
+import fanstocks from './games/fanstocks.js?v4';
+import league from './games/league.js?v4';
+import cashroyale from './games/cashroyale.js?v4';
+import surfers from './games/surfers.js?v4';
+import runway from './games/runway.js?v4';
+import news from './games/news.js?v4';
 
 const GAMES = [higherlower, tickerdle, fanstocks, league, cashroyale, surfers, runway, news];
 
